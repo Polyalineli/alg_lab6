@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-
 class StackOverflowError(RuntimeError):
     pass
 
@@ -11,15 +7,25 @@ class StackIsEmptyError(RuntimeError):
 
 
 class Stack:
+    limit = 0
     def __init__(self, size):
         self.storage = [0] * size
-        self.head = -1
-
+        
     def push(self, v):
-        pass
+        if len(self.storage)>Stack.limit:
+            self.storage[Stack.limit] = v
+            Stack.limit += 1
+        else:
+            raise StackOverflowError
 
     def pop(self):
-        pass
-
+        if Stack.limit>0:
+            a = self.storage[Stack.limit-1]
+            self.storage[Stack.limit-1] = 0
+            Stack.limit -= 1
+            return a
+        else:
+            raise StackIsEmptyError
     def __len__(self):
-        pass
+        return Stack.limit
+
